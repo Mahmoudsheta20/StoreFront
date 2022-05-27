@@ -26,7 +26,9 @@ const user:User ={
     try{
 const create = await userstore.create(user)
 
-res.json(create?.FirstName)
+res.json({
+    data:{...create}
+})
 }catch{
 res.status(400)
 res.json("thers wrong")
@@ -54,15 +56,20 @@ const show =async(req:Request, res:Response)=>{
 
 const DELETE = async(req:Request, res:Response)=>{
     
- const id = String(req.params.id)
- console.log(id)
+const id = req.params.id
+    
+ 
     
 
  try{
      const UserShow= await userstore.delete(id)
-     res.json(UserShow)
+     res.json({
+data: {...UserShow}
+
+     })
  }catch{
 
+    res.status(400)
  }
     
     
@@ -75,10 +82,10 @@ const DELETE = async(req:Request, res:Response)=>{
 
 
 const Users = (app:Application)=>{
-app.get('user/index', Index)
-app.post('user/create', Create)
-app.get('user/show/:id', show)
-app.post('user/delete/:id', DELETE)
+app.get('/user/index', Index)
+app.post('/user/create', Create)
+app.get('/user/show/:id', show)
+app.post('/delete/:id', DELETE)
 
 
 }
