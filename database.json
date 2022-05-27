@@ -1,0 +1,19 @@
+{
+    "dev": {
+        "driver": "pg",
+        "host": "localhost",
+        "database": "storefront",
+        "user": "postgres",
+        "password": "Sheta",
+        "port": 5550
+    },
+    "test": {
+        "driver": "pg",
+        "host": "localhost",
+        "database": "store_main",
+        "user": "postgres",
+        "password": "Sheta",
+        "port": 5550
+    }
+
+}
