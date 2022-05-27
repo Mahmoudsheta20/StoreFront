@@ -9,7 +9,7 @@ const{
     const salte = SALT_ROUNDS
 
 export type User={
-UserID?:string
+UserID?:string | undefined
 UserName:string
 Password:string
 FirstName:string
@@ -59,7 +59,46 @@ export class UserStore{
             return  null
         }
     }
+      async show(ID:string):Promise<User | null> {
+        try {
+      const sql = 'SELECT * FROM users WHERE userid=($1)'
+      // @ts-ignore
+      const conn = await Store.connect()
   
+      const result = await conn
+          .query(sql, [ID])
+  
+      const book = result.rows[0]
+  
+      conn.release()
+         console.log(book)
+      return book
+        } catch (err) {
+            console.log(err)
+            return  null
+        }
+    }
+  
+    async delete(id: string): Promise<User> {
+      try {
+    const sql = 'DELETE FROM users WHERE id=($1)'
+    // @ts-ignore
+    const conn = await Client.connect()
+
+    const result = await conn.query(sql, [id])
+
+    const book = result.rows[0]
+
+    conn.release()
+
+    return book
+      } catch (err) {
+          throw new Error(`Could not delete book ${id}. Error: ${err}`)
+      }
+  }
+
+
+
 
 
 

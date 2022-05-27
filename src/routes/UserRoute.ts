@@ -35,12 +35,50 @@ res.json("thers wrong")
 }
 
 
+const show =async(req:Request, res:Response)=>{
+    
+ const id = String(req.params.id)
+ console.log(id)
+    
+
+ try{
+     const UserShow= await userstore.show(id)
+     res.json(UserShow)
+ }catch{
+
+ }
+    
+    
+    
+    }
+
+const DELETE = async(req:Request, res:Response)=>{
+    
+ const id = String(req.params.id)
+ console.log(id)
+    
+
+ try{
+     const UserShow= await userstore.delete(id)
+     res.json(UserShow)
+ }catch{
+
+ }
+    
+    
+    
+    }
+
+
+
 
 
 
 const Users = (app:Application)=>{
-app.get('/index', Index)
-app.post('/create', Create)
+app.get('user/index', Index)
+app.post('user/create', Create)
+app.get('user/show/:id', show)
+app.post('user/delete/:id', DELETE)
 
 
 }

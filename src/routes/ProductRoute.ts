@@ -36,6 +36,9 @@ res.json("thers wrong")
 
 
 
+
+
+
 const Product = (app:Application)=>{
 app.get('/product', Index)
 app.post('/product', Create)
