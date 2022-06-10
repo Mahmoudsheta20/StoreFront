@@ -1,4 +1,5 @@
 import { Application, Request, Response } from 'express'
+import validate from '../../middleware/Authentiation'
 import { OrderStore, Order } from '../Models/OrderModels'
 
 const orderstore = new OrderStore()
@@ -94,10 +95,10 @@ const UpdateStatus = async (req:Request, res:Response) => {
 
 const Orders = (app: Application) => {
   //
-  app.put('/order/update/:id', UpdateStatus)
-  app.delete('/order/delete/:id', deleteOrder)
-  app.get('/order/index', index)
-  app.post('/order/create', createorder)
-  app.get('/oreder/user/:id', current)
+  app.put('/order/update/:id', validate, UpdateStatus)
+  app.delete('/order/delete/:id', validate, deleteOrder)
+  app.get('/order/index', validate, index)
+  app.post('/order/create', validate, createorder)
+  app.get('/oreder/user/:id', validate, current)
 }
 export default Orders

@@ -4,27 +4,30 @@ The company stakeholders want to create an online storefront to showcase their g
 
 These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application.
 
+
 ## API Endpoints
-
 #### Products
-
-- Index
-- Show
-- Create [token required]
+- Index: `'product/' [GET]`
+- Show: `'product/:id' [GET]`
+- Create (args: Product)[token required]: `'product/' [POST] (token)`
 - [OPTIONAL] Top 5 most popular products
-- [OPTIONAL] Products by category (args: product category)
+- [OPTIONAL] Products by category: `'products/cat/:category' [GET]`
+- [ADDED] Delete: `'product/:id  [DELETE]`
 
 #### Users
-
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index [token required]: `'/user/index' [GET] (token)`
+- Show [token required]: `'/user/show/:id' [GET] (token)`
+- Create (args: User)[token required]: `'/user/create' [POST] (token)`
+- [ADDED] Delete [token required]: `'/user/delete/:id' [DELETE] (token)`
+-auth user `'/user/auth' [post] crate jwt`
 
 #### Orders
-
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
-
+- Index [token required]: `/order/index' [GET] (token)`
+- Current Order by user [token required]: `'/oreder/user/:id' [GET] (token)`
+- [OPTIONAL] Completed Orders by user [token required]: `'orders/completed/:user_id' [GET] (token)`
+- [ADDED] Active Orders by user [token required]: `'orders/active/:user_id' [GET] (token)`
+- [ADDED] Update order's status [token required]: `'/order/update/:id [PUT] (token)`
+- [ADDED] Delete [token required]: `'/order/delete/:id [DELETE] (token)`
 ## Data Shapes
 
 #### Product
@@ -40,6 +43,8 @@ These are the notes from a meeting with the frontend developer that describe wha
 - firstName
 - lastName
 - password
+-email
+-username
 
 #### Orders
 

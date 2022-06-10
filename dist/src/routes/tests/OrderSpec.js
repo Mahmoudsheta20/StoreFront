@@ -42,27 +42,24 @@ describe('User API End point ', () => {
             status: 'active'
         });
     }));
-    //   it('user update', async () => {
-    //     const res = await request.post('/order/update/2').set('Content-type', 'application/json').set('Authorization', 'Bearer ' + token).send({
-    //       status: 'complete'
-    //     })
-    //     expect(res.body.data).toEqual(
-    //         id: 2,
-    //         product_id: 2,
-    //         quantity: 5,
-    //         user_id: 1,
-    //         status: 'complete'
-    //     )
-    //   })
+    it('order update', () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield request.put('/order/update/2').set('Content-type', 'application/json').set('Authorization', 'Bearer ' + token).send({
+            status: 'complete'
+        });
+        expect(res.body.data).toEqual({
+            id: 2,
+            product_id: 2,
+            quantity: 5,
+            user_id: 1,
+            status: 'complete'
+        });
+    }));
     it('user show', () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield request.get('/oreder/user/1').set('Content-type', 'application/json').set('Authorization', 'Bearer ' + token);
-        expect(res.body.data).toEqual({ id: 2, product_id: 2, quantity: 5, user_id: 1, status: 'active' });
+        expect(res.body.data).toEqual({ id: 2, product_id: 2, quantity: 5, user_id: 1, status: 'complete' });
     }));
     it('user delete', () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield request.delete('/order/delete/1').set('Content-type', 'application/json').set('Authorization', 'Bearer ' + token);
-        expect(res.body.data).toEqual({ id: 2, product_id: 2, quantity: 5, user_id: 1, status: 'active' });
+        expect(res.body.data).toEqual({ id: 2, product_id: 2, quantity: 5, user_id: 1, status: 'complete' });
     }));
 });
-function user_id(id, arg1, product_id, arg3, quantity, arg5, user_id, arg7, status, arg9) {
-    throw new Error('Function not implemented.');
-}
