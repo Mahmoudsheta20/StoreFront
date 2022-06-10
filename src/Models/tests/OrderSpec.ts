@@ -12,7 +12,7 @@ describe('User Model', () => {
   })
 
   it('should have a show method', () => {
-    expect(order.create).toBeDefined()
+    expect(order.createOrder).toBeDefined()
   })
   it('should have a show method', () => {
     expect(order.delete).toBeDefined()
@@ -22,6 +22,9 @@ describe('User Model', () => {
   })
   it('should have a show method', () => {
     expect(order.update).toBeDefined()
+  })
+  it('should have a show method', () => {
+    expect(order.AddOrderProduct).toBeDefined()
   })
 })
 
@@ -46,11 +49,9 @@ describe('Craete Order', () => {
   })
 
   it('create method should add a user', async () => {
-    const result = await order.create(
+    const result = await order.createOrder(
       {
-        product_id: 1,
-        quantity: 5,
-        user_id: 1,
+        user_id: '1',
         status: 'active'
 
       }
@@ -59,21 +60,38 @@ describe('Craete Order', () => {
 
     expect(result).toEqual({
       id: 1,
-      product_id: 1,
-      quantity: 5,
-      user_id: 1,
+
+      user_id: '1',
       status: 'active'
 
     })
   })
   it('create method should add a user', async () => {
+    const result = await order.AddOrderProduct(
+      {
+        quantity: 5,
+
+        product_id: '1',
+
+        order_id: '1'
+      }
+
+    )
+
+    expect(result).toEqual({
+      order_id: '1',
+      product_id: '1',
+      quantity: 5
+
+    })
+  })
+
+  it('create method should add a user', async () => {
     const result = await order.CurrentOrder(1)
 
     expect(result).toEqual({
       id: 1,
-      product_id: 1,
-      quantity: 5,
-      user_id: 1,
+      user_id: '1',
       status: 'active'
 
     })
@@ -82,21 +100,7 @@ describe('Craete Order', () => {
     const result = await order.update('complete', 1)
     expect(result).toEqual({
       id: 1,
-      product_id: 1,
-      quantity: 5,
-      user_id: 1,
-      status: 'complete'
-
-    })
-  })
-  it('create method should add a user', async () => {
-    const result = await order.delete(1)
-
-    expect(result).toEqual({
-      id: 1,
-      product_id: 1,
-      quantity: 5,
-      user_id: 1,
+      user_id: '1',
       status: 'complete'
 
     })

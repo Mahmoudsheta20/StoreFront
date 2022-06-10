@@ -8,7 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const Authentiation_1 = __importDefault(require("../../middleware/Authentiation"));
 const OrderModels_1 = require("../Models/OrderModels");
 const orderstore = new OrderModels_1.OrderStore();
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,15 +28,31 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(err);
     }
 });
+const AddProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const order = {
+        order_id: req.params.id,
+        product_id: req.body.product_id,
+        quantity: req.body.quantity
+    };
+    try {
+        const result = yield orderstore.AddOrderProduct(order);
+        res.json({
+            status: 'success',
+            data: Object.assign({}, result),
+            message: 'user authenticated successfully'
+        });
+    }
+    catch (err) {
+        res.json(err);
+    }
+});
 const createorder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const orders = {
-        product_id: req.body.product_id,
-        quantity: req.body.quantity,
         user_id: req.body.user_id,
         status: req.body.status
     };
     try {
-        const result = yield orderstore.create(orders);
+        const result = yield orderstore.createOrder(orders);
         res.json({
             status: 'success',
             data: Object.assign({}, result),
@@ -91,10 +111,11 @@ const UpdateStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 const Orders = (app) => {
     //
-    app.put('/order/update/:id', UpdateStatus);
-    app.delete('/order/delete/:id', deleteOrder);
-    app.get('/order/index', index);
-    app.post('/order/create', createorder);
-    app.get('/oreder/user/:id', current);
+    app.put('/order/update/:id', Authentiation_1.default, UpdateStatus);
+    app.delete('/order/delete/:id', Authentiation_1.default, deleteOrder);
+    app.get('/order/index', Authentiation_1.default, index);
+    app.post('/order/addproduct/:id', AddProduct);
+    app.post('/order/create', Authentiation_1.default, createorder);
+    app.get('/oreder/user/:id', Authentiation_1.default, current);
 };
 exports.default = Orders;

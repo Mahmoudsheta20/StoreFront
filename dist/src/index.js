@@ -8,8 +8,10 @@ const UserRoute_1 = __importDefault(require("./routes/UserRoute"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const ProductRoute_1 = __importDefault(require("./routes/ProductRoute"));
 const OrderRoute_1 = __importDefault(require("./routes/OrderRoute"));
+// import cors from 'cors'
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
+// app.use(cors)
 app.get('/', (req, res) => {
     res.send('hello api ');
 });

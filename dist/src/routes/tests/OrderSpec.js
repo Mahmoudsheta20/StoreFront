@@ -17,49 +17,38 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const index_1 = __importDefault(require("../../index"));
 const request = (0, supertest_1.default)(index_1.default);
-let token = '';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJpZCI6MzEsInVzZXJuYW1lIjoidGVzdDEiLCJwYXNzd29yZCI6IiQyYiQxMCRLQnhoQlp5Q0NBOS41Yi5BZjl5WXB1czRnZ3BqZ09hVE5wZzFIaVAyTTkuSnhjLjVQVGhQYSIsImZpcnN0bmFtZSI6Ik1haG1vdWQiLCJsYXN0bmFtZSI6IlNoZXRhIiwiZ3JvdXBpZCI6MiwiZW1haWwiOiJ0ZXN0MUBnbWFpbC5jb20ifSwiaWF0IjoxNjU0MjcxOTIwfQ.MpTh2R80WsQ0licQ-q5hZprK7C71wkJT36myZ15WLeM';
 describe('User API End point ', () => {
-    it('user auth ', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield request.post('/user/auth').set('Content-type', 'application/json').send({
-            username: 'test1',
-            password: 'test1'
-        });
-        const { token: usertoken } = res.body.data;
-        token = usertoken;
-    }));
     it('order create ', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield request.post('/order/create').set('Content-type', 'application/json').send({
-            product_id: 2,
-            quantity: 5,
-            user_id: 1,
+        const res = yield request.post('/order/create').set('Content-type', 'application/json').set('Authorization', 'Bearer ' + token).send({
+            user_id: '2',
             status: 'active'
         });
         expect(res.body.data).toEqual({
             id: 2,
-            product_id: 2,
-            quantity: 5,
-            user_id: 1,
+            user_id: '2',
             status: 'active'
         });
     }));
     it('order update', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield request.put('/order/update/2').set('Content-type', 'application/json').set('Authorization', 'Bearer ' + token).send({
-            status: 'complete'
+        const res = yield request.post('/order/addproduct/1').set('Content-type', 'application/json').set('Authorization', 'Bearer ' + token).send({
+            product_id: '2',
+            quantity: 5
         });
         expect(res.body.data).toEqual({
-            id: 2,
-            product_id: 2,
-            quantity: 5,
-            user_id: 1,
-            status: 'complete'
+            order_id: '1',
+            product_id: '2',
+            quantity: 5
         });
     }));
-    it('user show', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield request.get('/oreder/user/1').set('Content-type', 'application/json').set('Authorization', 'Bearer ' + token);
-        expect(res.body.data).toEqual({ id: 2, product_id: 2, quantity: 5, user_id: 1, status: 'complete' });
-    }));
-    it('user delete', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield request.delete('/order/delete/1').set('Content-type', 'application/json').set('Authorization', 'Bearer ' + token);
-        expect(res.body.data).toEqual({ id: 2, product_id: 2, quantity: 5, user_id: 1, status: 'complete' });
-    }));
+    // it('user show', async () => {
+    //   const res = await request.get('/oreder/user/1').set('Content-type', 'application/json').set('Authorization', 'Bearer ' + token)
+    //   expect(res.body.data).toEqual({ id: 2, product_id: 2, quantity: 5, user_id: 1, status: 'complete' })
+    // })
+    // it('user delete', async () => {
+    //   const res = await request.delete('/order/delete/1').set('Content-type', 'application/json').set('Authorization', 'Bearer ' + token)
+    //   expect(res.body.data).toEqual(
+    //     { id: 2, product_id: 2, quantity: 5, user_id: 1, status: 'complete' }
+    //   )
+    // })
 });

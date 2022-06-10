@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express'
 import validate from '../../middleware/Authentiation'
-import { OrderStore, Order } from '../Models/OrderModels'
+import { OrderStore, Order, OrderProduct } from '../Models/OrderModels'
 
 const orderstore = new OrderStore()
 
@@ -18,18 +18,34 @@ const index = async (req: Request, res: Response) => {
     console.log(err)
   }
 }
+const AddProduct = async (req:Request, res:Response) => {
+  const order:OrderProduct = {
 
+    order_id: req.params.id,
+    product_id: req.body.product_id,
+    quantity: req.body.quantity
+
+  }
+
+  try {
+    const result = await orderstore.AddOrderProduct(order)
+    res.json({
+      status: 'success',
+      data: { ...result },
+      message: 'user authenticated successfully'
+
+    })
+  } catch (err) { res.json(err) }
+}
 const createorder = async (req: Request, res: Response) => {
   const orders:Order = {
-    product_id: req.body.product_id,
-    quantity: req.body.quantity,
     user_id: req.body.user_id,
     status: req.body.status
 
   }
 
   try {
-    const result = await orderstore.create(orders)
+    const result = await orderstore.createOrder(orders)
     res.json({
       status: 'success',
       data: { ...result },
@@ -98,6 +114,7 @@ const Orders = (app: Application) => {
   app.put('/order/update/:id', validate, UpdateStatus)
   app.delete('/order/delete/:id', validate, deleteOrder)
   app.get('/order/index', validate, index)
+  app.post('/order/addproduct/:id', AddProduct)
   app.post('/order/create', validate, createorder)
   app.get('/oreder/user/:id', validate, current)
 }

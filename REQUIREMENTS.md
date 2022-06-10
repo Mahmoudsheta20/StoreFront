@@ -31,25 +31,26 @@ These are the notes from a meeting with the frontend developer that describe wha
 ## Data Shapes
 
 #### Product
-
-- id
-- name
-- price
-- [OPTIONAL] category
+- ID  [PRIMARY KEY]
+- ProductName [VARCHAR] 
+- Price [integer] 
+- Counts [integer]
 
 #### User
 
-- id
-- firstName
-- lastName
-- password
--email
--username
+- id [PRIMARY KEY]
+- UserName [VARCHAR]
+- Password [VARCHAR]
+- FirstName [VARCHAR]
+- LastName [VARCHAR]
+- GroupID [integer] 
+- Email [VARCHAR]
 
 #### Orders
-
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+ - id  [PRIMARY KEY],
+  -  user_id [FOREIGN KEY]
+   - status [boolen 'active' or 'completa'] 
+### order_product
+   - quantity integer,
+   - order_id  REFERENCES orders(id),
+   - product_id  REFERENCES product(id)

@@ -19,7 +19,7 @@ describe('User Model', () => {
         expect(order.index).toBeDefined();
     });
     it('should have a show method', () => {
-        expect(order.create).toBeDefined();
+        expect(order.createOrder).toBeDefined();
     });
     it('should have a show method', () => {
         expect(order.delete).toBeDefined();
@@ -29,6 +29,9 @@ describe('User Model', () => {
     });
     it('should have a show method', () => {
         expect(order.update).toBeDefined();
+    });
+    it('should have a show method', () => {
+        expect(order.AddOrderProduct).toBeDefined();
     });
 });
 describe('Craete Order', () => {
@@ -50,27 +53,33 @@ describe('Craete Order', () => {
         });
     }));
     it('create method should add a user', () => __awaiter(void 0, void 0, void 0, function* () {
-        const result = yield order.create({
-            product_id: 1,
-            quantity: 5,
-            user_id: 1,
+        const result = yield order.createOrder({
+            user_id: '1',
             status: 'active'
         });
         expect(result).toEqual({
             id: 1,
-            product_id: 1,
-            quantity: 5,
-            user_id: 1,
+            user_id: '1',
             status: 'active'
+        });
+    }));
+    it('create method should add a user', () => __awaiter(void 0, void 0, void 0, function* () {
+        const result = yield order.AddOrderProduct({
+            quantity: 5,
+            product_id: '1',
+            order_id: '1'
+        });
+        expect(result).toEqual({
+            order_id: '1',
+            product_id: '1',
+            quantity: 5
         });
     }));
     it('create method should add a user', () => __awaiter(void 0, void 0, void 0, function* () {
         const result = yield order.CurrentOrder(1);
         expect(result).toEqual({
             id: 1,
-            product_id: 1,
-            quantity: 5,
-            user_id: 1,
+            user_id: '1',
             status: 'active'
         });
     }));
@@ -78,19 +87,7 @@ describe('Craete Order', () => {
         const result = yield order.update('complete', 1);
         expect(result).toEqual({
             id: 1,
-            product_id: 1,
-            quantity: 5,
-            user_id: 1,
-            status: 'complete'
-        });
-    }));
-    it('create method should add a user', () => __awaiter(void 0, void 0, void 0, function* () {
-        const result = yield order.delete(1);
-        expect(result).toEqual({
-            id: 1,
-            product_id: 1,
-            quantity: 5,
-            user_id: 1,
+            user_id: '1',
             status: 'complete'
         });
     }));

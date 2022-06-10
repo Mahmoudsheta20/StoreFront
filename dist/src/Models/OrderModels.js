@@ -30,16 +30,32 @@ class OrderStore {
             }
         });
     }
-    create(orders) {
+    createOrder(orders) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const conn = yield configdb_1.default.connect();
-                const sql = 'INSERT INTO orders (product_id, quantity, user_id, status) VALUES ($1, $2, $3, $4) RETURNING *';
+                const sql = 'INSERT INTO orders (user_id, status) VALUES ($1, $2) RETURNING *';
                 const result = yield conn.query(sql, [
-                    orders.product_id,
-                    orders.quantity,
                     orders.user_id,
                     orders.status
+                ]);
+                conn.release();
+                return result.rows[0];
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+    }
+    AddOrderProduct(orders) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const conn = yield configdb_1.default.connect();
+                const sql = 'INSERT INTO order_products (quantity, order_id, product_id) VALUES($1, $2, $3) RETURNING *';
+                const result = yield conn.query(sql, [
+                    orders.quantity,
+                    orders.order_id,
+                    orders.product_id
                 ]);
                 conn.release();
                 return result.rows[0];
@@ -52,7 +68,7 @@ class OrderStore {
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const sql = 'DELETE  FROM orders WHERE user_id=$1 RETURNING *';
+                const sql = 'DELETE  FROM orders WHERE id=$1 RETURNING *';
                 const conn = yield configdb_1.default.connect();
                 const result = yield conn.query(sql, [id]);
                 conn.release();
